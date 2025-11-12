@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Trending/Popular Post Slider and Widget
- * Plugin URI: https://www.essentialplugin.com/wordpress-plugin/trending-post-slider-widget/
+ * Plugin URI: https://essentialplugin.com/wordpress-plugin/trending-post-slider-widget/
  * Description: Show Trending/Popular post in page and sidebar with slider/Grid block with different designs. Also work with Gutenberg shortcode block. 
  * Author: Essential Plugin
- * Version: 1.8.4
- * Author URI: https://www.essentialplugin.com/
+ * Version: 1.8.5
+ * Author URI: https://essentialplugin.com/
  * Text Domain: wtpsw
  *
  * @package Trending/Popular Post Slider and Widget
@@ -22,32 +22,32 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package WP Trending Post Slider and Widget
  * @since 1.0.0
  */
-if( ! defined( 'WTPSW_VERSION' ) ) {
-	define( 'WTPSW_VERSION', '1.8.4' ); // Version of plugin
+if ( ! defined( 'WTPSW_VERSION' ) ) {
+	define( 'WTPSW_VERSION', '1.8.5' ); // Version of plugin
 }
 
-if( ! defined( 'WTPSW_DIR' ) ) {
+if ( ! defined( 'WTPSW_DIR' ) ) {
 	define( 'WTPSW_DIR', dirname( __FILE__ ) ); // Plugin dir
 }
 
-if( ! defined( 'WTPSW_URL' ) ) {
+if ( ! defined( 'WTPSW_URL' ) ) {
 	define( 'WTPSW_URL', plugin_dir_url( __FILE__ ) ); // Plugin url
 }
 
-if( ! defined( 'WTPSW_META_PREFIX' ) ) {
+if ( ! defined( 'WTPSW_META_PREFIX' ) ) {
 	define( 'WTPSW_META_PREFIX', '_wtpsw_' ); // Plugin meta prefix
 }
 
-if( ! defined( 'WTPSW_SITE_LINK' ) ) {
-	define('WTPSW_SITE_LINK','https://www.essentialplugin.com'); // Plugin link
+if ( ! defined( 'WTPSW_SITE_LINK' ) ) {
+	define('WTPSW_SITE_LINK','https://essentialplugin.com'); // Plugin link
 }
 
-if( ! defined( 'WTPSW_PLUGIN_LINK_UNLOCK' ) ) {
-	define('WTPSW_PLUGIN_LINK_UNLOCK', 'https://www.essentialplugin.com/pricing/?utm_source=WP&utm_medium=Trending-Popular&utm_campaign=Features-PRO'); // Plugin link
+if ( ! defined( 'WTPSW_PLUGIN_LINK_UNLOCK' ) ) {
+	define('WTPSW_PLUGIN_LINK_UNLOCK', 'https://essentialplugin.com/pricing/?utm_source=WP&utm_medium=Trending-Popular&utm_campaign=Features-PRO'); // Plugin link
 }
 
-if( ! defined( 'WTPSW_PLUGIN_LINK_UPGRADE' ) ) {
-	define('WTPSW_PLUGIN_LINK_UPGRADE', 'https://www.essentialplugin.com/pricing/?utm_source=WP&utm_medium=Trending-Popular&utm_campaign=Upgrade-PRO'); // Plugin link
+if ( ! defined( 'WTPSW_PLUGIN_LINK_UPGRADE' ) ) {
+	define('WTPSW_PLUGIN_LINK_UPGRADE', 'https://essentialplugin.com/pricing/?utm_source=WP&utm_medium=Trending-Popular&utm_campaign=Upgrade-PRO'); // Plugin link
 }
 
 /**
@@ -117,7 +117,7 @@ function wtpsw_install(){
 	// get settings for the plugin
 	$wtpsw_options = get_option( 'wtpsw_options' );
 
-	if( empty( $wtpsw_options ) ) { // Check plugin version option
+	if ( empty( $wtpsw_options ) ) { // Check plugin version option
 
 		// set default settings
 		wtpsw_default_settings();
@@ -129,14 +129,14 @@ function wtpsw_install(){
 	// Version 1.1
 	$plugin_version = get_option('wtpsw_plugin_version');
 
-	if( version_compare( $plugin_version, '1.0', '=' ) && !isset($wtpsw_options['post_types']) ) {
+	if ( version_compare( $plugin_version, '1.0', '=' ) && !isset($wtpsw_options['post_types']) ) {
 		$wtpsw_options['post_types'][0] = 'post';
 		update_option( 'wtpsw_options', $wtpsw_options );
 		update_option( 'wtpsw_plugin_version', '1.1' );
 	}
 
 	// Deactivate free version
-	if( is_plugin_active( 'featured-and-trending-post-pro/featured-and-trending-post-pro.php' )) {
+	if ( is_plugin_active( 'featured-and-trending-post-pro/featured-and-trending-post-pro.php' )) {
 		add_action( 'update_option_active_plugins', 'wtpsw_deactivate_version' );
 	}
 }
@@ -157,7 +157,7 @@ function wtpsw_uninstall() {
  */
 function wtpsw_deactivate_version() {
 
-	if( is_plugin_active( 'featured-and-trending-post-pro/featured-and-trending-post-pro.php' ) ) {
+	if ( is_plugin_active( 'featured-and-trending-post-pro/featured-and-trending-post-pro.php' ) ) {
 		deactivate_plugins( 'featured-and-trending-post-pro/featured-and-trending-post-pro.php', true );
 	}
 }
@@ -172,14 +172,14 @@ function wtpsw_admin_notice() {
 	global $pagenow;
 
 	// If not plugin screen
-	if( 'plugins.php' != $pagenow ) {
+	if ( 'plugins.php' != $pagenow ) {
 		return;
 	}
 
 	// Check Lite Version
 	$dir = ABSPATH . 'wp-content/plugins/featured-and-trending-post-pro/featured-and-trending-post-pro.php';
 
-	if( ! file_exists( $dir ) ) {
+	if ( ! file_exists( $dir ) ) {
 		return;
 	}
 
@@ -187,7 +187,7 @@ function wtpsw_admin_notice() {
 	$notice_transient   = get_transient( 'wtpsw_install_notice' );
 
 	// If free plugin exist
-	if( $notice_transient == false && current_user_can( 'install_plugins' ) ) {
+	if ( $notice_transient == false && current_user_can( 'install_plugins' ) ) {
 		echo '<div class="updated notice" style="position:relative;">
 					<p>
 						<strong>'.sprintf( __( 'Thank you for activating %s', 'wtpsw' ), 'Trending/Popular Post Slider and Widget' ).'</strong>.<br/>
